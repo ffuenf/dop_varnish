@@ -1,0 +1,2 @@
+#!/bin/bash
+ls vcl.d/*.vcl | awk '{ printf "include \"%s\";\n", $1 }' > .all_includes.vcl
