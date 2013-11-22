@@ -24,6 +24,15 @@ template "#{node['varnish']['dir']}/default.vcl" do
   })
   action :create
 end
+
+template node['varnish']['default'] do
+  source "custom-default.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  notifies :restart, "service[varnish]"
+end
+
 # create directory for varnish configs
 directory "#{node['varnish']['dir']}/vcl.d/" do
   action :create
