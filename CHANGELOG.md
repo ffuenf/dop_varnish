@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 1.0.2  (February 13, 2014)
+
+* pin templates to dop_varnish cookbook
+
 ## 1.0.1  (November 22, 2013)
 
 * raise clibuffer to play well with nexcess_turpentine

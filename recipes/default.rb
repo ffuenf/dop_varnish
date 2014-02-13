@@ -25,6 +25,7 @@ template "#{node['varnish']['dir']}/default.vcl" do
   group "root"
   mode 0644
   source "default.vcl.erb"
+  cookbook "dop_varnish"
   variables({
     :params => node
   })
@@ -33,6 +34,7 @@ end
 
 template node['varnish']['default'] do
   source "custom-default.erb"
+  cookbook "dop_varnish"
   owner "root"
   group "root"
   mode 0644
@@ -52,6 +54,7 @@ end
 # varnish include script
 cookbook_file "#{node['varnish']['dir']}/include_varnish_configs" do
   source "include_varnish_configs"
+  cookbook "dop_varnish"
   mode 0755
   owner "root"
   group "root"
