@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 1.0.4  (April 14, 2014)
+
+* make varnish listen only on the loop-back interface 127.0.0.1 (as we use it generally behind nginx)
+
 ## 1.0.3  (March 7, 2014)
 
 * disable Varnishadm logging to syslog
