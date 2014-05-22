@@ -4,7 +4,7 @@ license          "Apache 2.0"
 description      "installs/configures dop_varnish"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 name             "dop_varnish"
-version          "1.0.4"
+version          "2.0.0"
 
 %w{ debian }.each do |os|
   supports os

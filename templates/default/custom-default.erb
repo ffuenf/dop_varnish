@@ -29,5 +29,9 @@ DAEMON_OPTS="-a <%= node['varnish']['listen_address'] %>:<%= node['varnish']['li
               -S <%= node['varnish']['secret_file'] %> \
               -p cli_buffer=16384 \
               -p syslog_cli_traffic=off \
+<% if node['varnish']['version'] != "4.0" %>
               -p esi_syntax=0x2 \
+<% else %>
+              -p vcc_allow_inline_c=on
+<% end %>
               -n $INSTANCE"
