@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 2.0.1  (December 26, 2014)
+
+* remove dependency to dop_nginx
+
 ## 2.0.0  (May 22, 2014)
 
 * varnish 4.0

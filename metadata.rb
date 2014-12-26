@@ -4,14 +4,14 @@ license          "Apache 2.0"
 description      "installs/configures dop_varnish"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 name             "dop_varnish"
-version          "2.0.0"
+version          "2.0.1"
 
 %w{ debian }.each do |os|
   supports os
 end
 
 %w{ 
-  dop_nginx
+  nginx
   varnish
 }.each do |ressource|
   depends ressource
