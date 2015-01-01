@@ -16,6 +16,7 @@ platforms:
     size: 512mb
     ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+
 - name: ubuntu-14-04-x64
   driver_plugin: digitalocean
   driver_config:
