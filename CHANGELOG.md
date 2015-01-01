@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 2.1.0  (January 1, 2015)
+
+* integrate testsuites: test-kitchen, foodcritic, rubocop, travis-ci
+
 ## 2.0.1  (December 26, 2014)
 
 * remove dependency to dop_nginx
