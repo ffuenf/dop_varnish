@@ -50,8 +50,8 @@ env:
   - secure: FN8HTlKvSFxrMc9TGrBSEQGUR4aD1NrNf3PfIk02UffDIvadgOmo1lde9aT1pYwqsLKqYol8g95k76NYGh1i7DIhApNB+QwvwLAm+//IXTRdT0D1NlXbswmanxnhFafaXjxkFFcMB2lSGFplA/tK5hnNM4rBi5kk8dva4QdS5mA=
   - secure: mQz8P5LnYrWv6rEEbKOEERD2tf15bLT1X0qwubMt3zQh4aWijPxk8PZor2RUUQgvTZgQkMIuluI+zuoGxHVOYkcJ2fH/hcXsKDuLBKXvBU0SBgW46OQ47OTxmYNgAYnZT2IjGAcS25HtYSPebih+9Mk5PsuvEFhQPI4oCx8FQNg=
 matrix:
-- KITCHEN_INSTANCE='default-debian-7-7-x64'
-- KITCHEN_INSTANCE='default-ubuntu-14-04-1-x64'
+- KITCHEN_INSTANCE='default-debian-7-0-x64'
+- KITCHEN_INSTANCE='default-ubuntu-14-04-x64'
 notifications:
   slack:
     secure: P43+OOgSGOBK0a8okq/nEj6izSEoXqO083OieKWUcvKxRGflCb0zLKuFHJtsSTdOu39q3ALqiy9rucgaBItLNlxkya0SB/0AQybQiAaifndYbn2q0KEKaqWrFurkflNWsWlkq4p+N9fVxj6sn3SSqIfxZrLB9pCVsX2X2F+Z+IU=
