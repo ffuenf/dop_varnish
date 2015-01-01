@@ -41,6 +41,10 @@ template node['varnish']['default'] do
   notifies :restart, 'service[varnish]'
 end
 
+# create directory for varnish storage_dir
+directory "#{node['varnish']['storage_dir']}/" do
+  action :create
+end
 # create directory for varnish configs
 directory "#{node['varnish']['dir']}/vcl.d/" do
   action :create

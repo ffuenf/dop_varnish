@@ -22,6 +22,10 @@ describe file('/etc/default/varnish') do
   it { should be_grouped_into 'root' }
 end
 
+describe file('/var/lib/varnish/default') do
+  it { should be_directory }
+end
+
 describe file('/etc/varnish/vcl.d') do
   it { should be_directory }
 end
