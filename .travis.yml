@@ -4,14 +4,11 @@ rvm:
 - 2.1.5
 - 2.2.0
 before_install:
-- echo -n $DO_KEY_CHUNK_{0..30} >> ~/.ssh/id_do.base64
-- cat ~/.ssh/id_do.base64 | tr -d ' ' | base64 --decode > ~/.ssh/id_do.pem
+- echo -n $DO_KEY_CHUNK_{0..30} >> ~/.digitalocean/id_do.base64
+- cat ~/.digitalocean/id_do.base64 | tr -d ' ' | base64 --decode > ~/.ssh/id_do.pem
 script:
 - bundle exec rubocop
 - bundle exec foodcritic -f any .
-- bundle exec kitchen test $KITCHEN_INSTANCE
-after_script:
-- bundle exec kitchen destroy
 env:
   global:
   - KITCHEN_YAML=.kitchen.cloud.yml
