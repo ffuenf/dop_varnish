@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 2.1.1  (January 27, 2015)
+
+* parameterize more startup options
+
 ## 2.1.0  (January 1, 2015)
 
 * integrate testsuites: test-kitchen, foodcritic, rubocop, travis-ci
