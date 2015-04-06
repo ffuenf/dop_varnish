@@ -9,6 +9,7 @@ before_install:
 script:
 - bundle exec rubocop
 - bundle exec foodcritic -f any .
+- bundle exec kitchen test $KITCHEN_INSTANCE
 env:
   global:
   - KITCHEN_YAML=.kitchen.cloud.yml
