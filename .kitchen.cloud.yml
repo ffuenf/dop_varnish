@@ -4,8 +4,6 @@ driver_config:
 
 provisioner:
   name: chef_zero
-  solo_rb:
-    ssl_verify_mode: verify_peer
   require_chef_omnibus: latest
 
 platforms:
