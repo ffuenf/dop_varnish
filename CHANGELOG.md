@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 3.0.0  (January 13, 2016)
+
+* add support for debian 8 jessie (systemd)
+
 ## 2.1.1  (January 27, 2015)
 
 * parameterize more startup options
