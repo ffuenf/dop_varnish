@@ -2,7 +2,6 @@
 # default #
 # # # # # #
 
-default['varnish']['secret'] = node['dop_varnish']['databag']['secret']
 default['varnish']['version'] = '4.0'
 default['varnish']['instance'] = 'default'
 default['varnish']['storage'] = 'file'
