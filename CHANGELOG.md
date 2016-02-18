@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 2.2.0  (February 18, 2016)
+
+* bump version
+
 ## 2.1.1  (January 27, 2015)
 
 * parameterize more startup options

@@ -1,12 +1,13 @@
+<a href="http://www.ffuenf.de" title="ffuenf - code • design • e-commerce"><img src="https://github.com/ffuenf/Ffuenf_Common/blob/master/skin/adminhtml/default/default/ffuenf/ffuenf.png" alt="ffuenf - code • design • e-commerce" /></a>
+
 dop_varnish
 ===========
 [![GitHub tag](http://img.shields.io/github/tag/ffuenf/dop_varnish.svg)][tag]
 [![Build Status](http://img.shields.io/travis/ffuenf/dop_varnish.svg)][travis]
-[![Gittip](http://img.shields.io/gittip/arosenhagen.svg)][gittip]
-
+[![PayPal Donate](https://img.shields.io/badge/paypal-donate-blue.svg)][paypal_donate]
 [tag]: https://github.com/ffuenf/dop_varnish/tags
 [travis]: https://travis-ci.org/ffuenf/dop_varnish
-[gittip]: https://www.gittip.com/arosenhagen
+[paypal_donate]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J2PQS2WLT2Y8W&item_name=dop%3a%20dop_varnish&item_number=dop_varnish&currency_code=EUR
 
 dop_varnish is a wrapper-cookbook around the [varnish](https://github.com/rackspace-cookbooks/varnish) cookbook when used as [dop](http://ffuenf.github.io/dop) component.
 
@@ -25,7 +26,9 @@ The following platforms are supported and tested:
 
 * Debian 6.x
 * Debian 7.x
+* Debian 8.x
 * Ubuntu 14.04.x
+* Ubuntu 14.10.x
 
 Other Debian family distributions are assumed to work.
 
@@ -79,7 +82,7 @@ License and Author
 
 - Author:: Achim Rosenhagen (<a.rosenhagen@ffuenf.de>)
 
-- Copyright:: 2015, ffuenf
+- Copyright:: 2016, ffuenf
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
