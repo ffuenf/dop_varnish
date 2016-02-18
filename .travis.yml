@@ -1,10 +1,11 @@
 language: ruby
-bundler_args: "--without kitchen_vagrant --without development"
+bundler_args: --without kitchen_vagrant --without development
+sudo: false
 rvm:
 - 2.2.3
 before_install:
-- echo -n $DO_KEY_CHUNK_{0..30} >> ~/.digitalocean/id_do.base64
-- cat ~/.digitalocean/id_do.base64 | tr -d ' ' | base64 --decode > ~/.ssh/id_do.pem
+- echo -n $DO_KEY_CHUNK_{0..30} >> ~/.ssh/id_do.base64
+- cat ~/.ssh/id_do.base64 | tr -d ' ' | base64 --decode > ~/.ssh/id_do.pem
 script:
 - bundle exec rubocop
 - bundle exec foodcritic -f any .
@@ -45,8 +46,8 @@ env:
   - secure: FN8HTlKvSFxrMc9TGrBSEQGUR4aD1NrNf3PfIk02UffDIvadgOmo1lde9aT1pYwqsLKqYol8g95k76NYGh1i7DIhApNB+QwvwLAm+//IXTRdT0D1NlXbswmanxnhFafaXjxkFFcMB2lSGFplA/tK5hnNM4rBi5kk8dva4QdS5mA=
   - secure: mQz8P5LnYrWv6rEEbKOEERD2tf15bLT1X0qwubMt3zQh4aWijPxk8PZor2RUUQgvTZgQkMIuluI+zuoGxHVOYkcJ2fH/hcXsKDuLBKXvBU0SBgW46OQ47OTxmYNgAYnZT2IjGAcS25HtYSPebih+9Mk5PsuvEFhQPI4oCx8FQNg=
 matrix:
-- KITCHEN_INSTANCE='default-debian-7-0-x64'
-- KITCHEN_INSTANCE='default-ubuntu-14-04-x64'
+- KITCHEN_INSTANCE='default-debian-7-8-x64'
+- KITCHEN_INSTANCE='default-ubuntu-14-04-3-x64'
 notifications:
   slack:
     secure: P43+OOgSGOBK0a8okq/nEj6izSEoXqO083OieKWUcvKxRGflCb0zLKuFHJtsSTdOu39q3ALqiy9rucgaBItLNlxkya0SB/0AQybQiAaifndYbn2q0KEKaqWrFurkflNWsWlkq4p+N9fVxj6sn3SSqIfxZrLB9pCVsX2X2F+Z+IU=
