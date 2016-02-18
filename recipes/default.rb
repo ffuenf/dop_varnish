@@ -4,6 +4,7 @@
 #
 
 node.set['dop_varnish']['databag'] = Chef::EncryptedDataBagItem.load('dop_varnish', 'default')
+node.set['varnish']['secret'] = node['dop_varnish']['databag']['secret']
 
 apt_repository 'varnish-cache' do
   uri "http://repo.varnish-cache.org/#{node['platform']}"
