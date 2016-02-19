@@ -1,0 +1,40 @@
+---
+driver:
+  name: vagrant
+  driver_config:
+    require_chef_omnibus: latest
+
+provisioner:
+  name: chef_zero
+  solo_rb:
+    ssl_verify_mode: verify_peer
+
+platforms:
+- name: debian-7.9.0-amd64
+  driver_plugin: vagrant
+  driver_config:
+    box: ffuenf/debian-7.9.0-amd64
+    box_url: https://atlas.hashicorp.com/ffuenf/debian-7.9.0-amd64
+    box_check_update: true
+
+- name: debian-8.3.0-amd64
+  driver_plugin: vagrant
+  driver_config:
+    box: ffuenf/debian-8.3.0-amd64
+    box_url: https://atlas.hashicorp.com/ffuenf/debian-8.3.0-amd64
+    box_check_update: true
+
+- name: ubuntu-14.04.3-server-amd64
+  driver_plugin: vagrant
+  driver_config:
+    box: ubuntu-14.04.3-server-amd64
+    box_url: https://atlas.hashicorp.com/ffuenf/ubuntu-14.04.3-server-amd64
+    box_check_update: true
+
+suites:
+- name: default
+  data_bags_path: test/integration/default/data_bags
+  encrypted_data_bag_secret_key_path: .data_bags/insecure_databag_secret
+  run_list:
+    - recipe[dop_varnish::default]
+  attributes: {}
