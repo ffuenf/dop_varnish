@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of dop_varnish.
 
+## 2.2.1 (February 29, 2016)
+
+* add esi_disable_xml_check
+
 ## 2.2.0  (February 18, 2016)
 
 * bump version
