@@ -32,7 +32,7 @@ DAEMON_OPTS="-a <%= node['varnish']['listen_address'] %>:<%= node['varnish']['li
               -p cli_buffer=<%= node['varnish']['cli_buffer'] %> \
               -p syslog_cli_traffic=<%= node['varnish']['syslog_cli_traffic'] %> \
 <% if node['varnish']['version'] == "4.0" %>
-              -p feature=+esi_ignore_other_elements \
+              -p feature=+esi_disable_xml_check,+esi_ignore_other_elements \
               -p vcc_allow_inline_c=<%= node['varnish']['vcc_allow_inline_c'] %> \
 <% else %>
               -p esi_syntax=<%= node['varnish']['esi_syntax'] %> \
