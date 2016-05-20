@@ -6,6 +6,18 @@ This file is used to list changes made in each version of dop_varnish.
 
 * add support for debian 8 jessie (systemd)
 
+## 2.2.2 (March 24, 2016)
+
+* add varnish 4.1 compatibility
+
+## 2.2.1 (February 29, 2016)
+
+* add esi_disable_xml_check
+
+## 2.2.0  (February 18, 2016)
+
+* bump version
+
 ## 2.1.1  (January 27, 2015)
 
 * parameterize more startup options

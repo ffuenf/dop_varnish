@@ -1,0 +1,42 @@
+# Configuration file for varnish
+#
+# /etc/init.d/varnish expects the variables $DAEMON_OPTS, $NFILES and $MEMLOCK
+# to be set from this shell script fragment.
+#
+
+# Should we start varnishd at boot?  Set to "no" to disable.
+START=<%= node['varnish']['start'] %>
+
+# Maximum number of open files (for ulimit -n)
+NFILES=<%= node['varnish']['nfiles'] %>
+
+# Maxiumum locked memory size for shared memory log
+MEMLOCK=<%= node['varnish']['memlock'] %>
+
+# Default varnish instance name is the local nodename.  Can be overridden with
+# the -n switch, to have more instances on a single server.
+INSTANCE=<%= node['varnish']['instance'] %>
+
+# Pass the Daemon options
+
+DAEMON_OPTS="-a <%= node['varnish']['listen_address'] %>:<%= node['varnish']['listen_port'] %> \
+              -f <%= node['varnish']['dir'] %>/<%= node['varnish']['vcl_conf'] %> \
+              -T <%= node['varnish']['admin_listen_address'] %>:<%= node['varnish']['admin_listen_port'] %> \
+              <% if node['varnish']['version'] != "4.1" %>
+              -u <%= node['varnish']['user'] %> -g <%= node['varnish']['group'] %> \
+              <% end %>
+              -t <%= node['varnish']['ttl'] %> \
+<% if node['varnish']['version'] != "4.0" && node['varnish']['version'] != "4.1" %>
+              -w <%= node['varnish']['min_threads'] %>,<%= node['varnish']['max_threads'] %>,<%= node['varnish']['thread_timeout'] %> \
+<% end %>
+              -s <%= node['varnish']['storage'] %>,<%= (node['varnish']['storage'] == 'file') ? "#{node['varnish']['storage_file']}," : '' %><%= node['varnish']['storage_size'] %> \
+              -S <%= node['varnish']['secret_file'] %> \
+              -p cli_buffer=<%= node['varnish']['cli_buffer'] %> \
+              -p syslog_cli_traffic=<%= node['varnish']['syslog_cli_traffic'] %> \
+<% if node['varnish']['version'] == "4.0" || node['varnish']['version'] == "4.1" %>
+              -p feature=+esi_disable_xml_check,+esi_ignore_other_elements \
+              -p vcc_allow_inline_c=<%= node['varnish']['vcc_allow_inline_c'] %> \
+<% else %>
+              -p esi_syntax=<%= node['varnish']['esi_syntax'] %> \
+<% end %>
+              -n $INSTANCE"

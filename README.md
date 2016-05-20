@@ -28,6 +28,7 @@ The following platforms are supported and tested:
 * Debian 7.x
 * Debian 8.x
 * Ubuntu 14.04.x
+* Ubuntu 14.10.x
 
 Other Debian family distributions are assumed to work.
 
