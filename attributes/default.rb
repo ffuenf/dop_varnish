@@ -7,6 +7,7 @@ default['varnish']['instance'] = 'main'
 default['varnish']['storage'] = 'file'
 default['varnish']['storage_dir'] = "/var/lib/varnish/#{node['varnish']['instance']}"
 default['varnish']['storage_file'] = "#{node['varnish']['storage_dir']}/varnish_storage.bin"
+default['varnish']['file_storage_size'] = '1G'
 default['varnish']['vcl_cookbook'] = 'dop_varnish'
 
 default['varnish']['parameters']['vcc_allow_inline_c'] = 'on'
