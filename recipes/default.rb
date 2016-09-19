@@ -3,8 +3,24 @@
 # Recipe:: default
 #
 
+if node['varnish']['version'] != '5.0'
 include_recipe 'varnish::repo'
 package 'varnish'
+else
+    package 'libjemalloc1'
+    varnish_src_filepath = "#{Chef::Config['file_cache_path']}/varnish-#{node['varnish']['version']}.deb"
+    unless ::File.exist?(varnish_src_filepath)
+      remote_file varnish_src_filepath do
+        source node['varnish']['url']
+      end
+      bash 'install varnish' do
+        cwd ::File.dirname(varnish_src_filepath)
+        code <<-EOH
+            dpkg -i #{varnish_src_filepath}
+        EOH
+      end
+    end
+end
 
 directory node['varnish']['storage_dir'] do
   recursive true
@@ -38,7 +54,6 @@ cookbook_file "#{node['varnish']['dir']}/include_varnish_configs" do
   action :create_if_missing
 end
 
-# redis optimization: http://www.fabrizio-branca.de/redis-optimization.html
 execute 'overcommit_memory' do
   command 'echo 1 > /proc/sys/vm/overcommit_memory'
   action :run
@@ -50,30 +65,16 @@ directory "#{node['varnish']['storage_dir']}/" do
 end
 
 # varnish config
-varnish_default_config 'main' do
-  start_on_boot true
-  listen_address node['varnish']['listen_address']
-  listen_port node['varnish']['listen_port']
-  path_to_vcl "#{node['varnish']['dir']}/default.vcl"
-  admin_listen_address node['varnish']['listen_address']
-  admin_listen_port node['varnish']['admin_listen_port']
-  user node['varnish']['user']
-  group node['varnish']['group']
-  ttl node['varnish']['ttl']
-  storage node['varnish']['storage']
-  file_storage_path node['varnish']['storage_file']
-  file_storage_size node['varnish']['file_storage_size']
-  parameters(
-    thread_pools: node['varnish']['parameters']['thread_pools'],
-    thread_pool_min: node['varnish']['parameters']['thread_pool_min'],
-    thread_pool_max: node['varnish']['parameters']['thread_pool_max'],
-    thread_pool_timeout: node['varnish']['parameters']['thread_pool_timeout'],
-    cli_buffer: node['varnish']['parameters']['cli_buffer'],
-    syslog_cli_traffic: node['varnish']['parameters']['syslog_cli_traffic'],
-    feature: node['varnish']['parameters']['feature'],
-    vcc_allow_inline_c: node['varnish']['parameters']['vcc_allow_inline_c']
+template '/etc/default/varnish' do
+  source 'default.erb'
+  cookbook 'dop_varnish'
+  owner 'root'
+  group 'root'
+  mode 0644
+  variables(
+    varnish: node['varnish']
   )
-  path_to_secret node['varnish']['secret_file']
+  notifies 'restart', 'service[varnish]', :delayed
 end
 
 varnish_install 'main' do
