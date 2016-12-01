@@ -3,7 +3,7 @@
 # # # # # #
 
 default['varnish']['url'] = 'https://repo.varnish-cache.org/pkg/5.0.0/varnish_5.0.0-1_amd64.deb'
-default['varnish']['version'] = '4.0'
+default['varnish']['version'] = '4.1'
 default['varnish']['instance'] = 'main'
 default['varnish']['storage'] = 'file'
 default['varnish']['storage_dir'] = "/var/lib/varnish/#{node['varnish']['instance']}"

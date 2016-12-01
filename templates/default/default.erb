@@ -23,14 +23,14 @@ DAEMON_OPTS="-a <%= @varnish['listen_address'] %>:<%= @varnish['listen_port'] %>
               -f <%= @varnish['dir'] %>/<%= @varnish['vcl_conf'] %> \
               -T <%= @varnish['admin_listen_address'] %>:<%= @varnish['admin_listen_port'] %> \
               -t <%= @varnish['ttl'] %> \
-<% if node['varnish']['version'] != "4.0" && @varnish['version'] != "4.1" && @varnish['version'] != "5.0" %>
+<% if @varnish['version'] !=~ /^4/ && @varnish['version'] !=~ /^5/ %>
               -w <%= @varnish['min_threads'] %>,<%= @varnish['max_threads'] %>,<%= @varnish['thread_timeout'] %> \
 <% end %>
               -s <%= @varnish['storage'] %>,<%= (@varnish['storage'] == 'file') ? "#{@varnish['storage_file']}," : '' %><%= @varnish['storage_size'] %> \
               -S <%= @varnish['secret_file'] %> \
               -p cli_buffer=<%= @varnish['parameters']['cli_buffer'] %> \
               -p syslog_cli_traffic=<%= @varnish['parameters']['syslog_cli_traffic'] %> \
-<% if @varnish['version'] == "4.0" || @varnish['version'] == "4.1" || @varnish['version'] == "5.0" %>
+<% if @varnish['version'] =~ /^4/ && @varnish['version'] =~ /^5/ %>
               -p feature=+esi_disable_xml_check,+esi_ignore_other_elements \
               -p vcc_allow_inline_c=<%= @varnish['parameters']['vcc_allow_inline_c'] %> \
 <% else %>
