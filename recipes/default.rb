@@ -3,51 +3,37 @@
 # Recipe:: default
 #
 
-node.set['dop_varnish']['databag'] = Chef::EncryptedDataBagItem.load('dop_varnish', 'default')
-node.set['varnish']['secret'] = node['dop_varnish']['databag']['secret']
-
-apt_repository 'varnish-cache' do
-  uri "http://repo.varnish-cache.org/#{node['platform']}"
-  distribution node['lsb']['codename']
-  components ["varnish-#{node['varnish']['version']}"]
-  key "http://repo.varnish-cache.org/#{node['platform']}/GPG-key.txt"
+if node['varnish']['version'] != '5.0'
+  include_recipe 'varnish::repo'
+  package 'varnish'
+else
+  package 'libjemalloc1'
+  varnish_src_filepath = "#{Chef::Config['file_cache_path']}/varnish-#{node['varnish']['version']}.deb"
+  unless ::File.exist?(varnish_src_filepath)
+    remote_file varnish_src_filepath do
+      source node['varnish']['url']
+    end
+    bash 'install varnish' do
+      cwd ::File.dirname(varnish_src_filepath)
+      code <<-EOH
+          dpkg -i #{varnish_src_filepath}
+      EOH
+    end
+  end
 end
 
-include_recipe 'varnish'
+directory node['varnish']['storage_dir'] do
+  recursive true
+end
+directory node['varnish']['dir']
 
 # create secret file
 file node['varnish']['secret_file'] do
   content node['varnish']['secret']
-  mode 0400
+  mode 0o400
   action :create
 end
 
-# varnish config
-template "#{node['varnish']['dir']}/default.vcl" do
-  owner 'root'
-  group 'root'
-  mode 0644
-  source 'default.vcl.erb'
-  cookbook 'dop_varnish'
-  variables(
-    params: node
-  )
-  action :create
-end
-
-template node['varnish']['default'] do
-  source 'custom-default.erb'
-  cookbook 'dop_varnish'
-  owner 'root'
-  group 'root'
-  mode 0644
-  notifies :restart, 'service[varnish]'
-end
-
-# create directory for varnish storage_dir
-directory "#{node['varnish']['storage_dir']}/" do
-  action :create
-end
 # create directory for varnish configs
 directory "#{node['varnish']['dir']}/vcl.d/" do
   action :create
@@ -55,26 +41,59 @@ end
 # create include file for varnish
 file "#{node['varnish']['dir']}/.all_includes.vcl" do
   content ''
-  mode 0644
+  mode 0o644
   action :create_if_missing
 end
 # varnish include script
 cookbook_file "#{node['varnish']['dir']}/include_varnish_configs" do
   source 'include_varnish_configs'
   cookbook 'dop_varnish'
-  mode 0755
+  mode 0o755
   owner 'root'
   group 'root'
   action :create_if_missing
 end
 
-# redis optimization: http://www.fabrizio-branca.de/redis-optimization.html
 execute 'overcommit_memory' do
   command 'echo 1 > /proc/sys/vm/overcommit_memory'
   action :run
 end
 
-service 'varnish' do
-  supports restart: true, reload: true
-  action [:enable, :start]
+# create directory for varnish storage_dir
+directory "#{node['varnish']['storage_dir']}/" do
+  action :create
+end
+
+# varnish config
+template '/etc/default/varnish' do
+  source 'default.erb'
+  cookbook 'dop_varnish'
+  owner 'root'
+  group 'root'
+  mode 0o644
+  variables(
+    varnish: node['varnish']
+  )
+  notifies 'restart', 'service[varnish]', :delayed
+end
+
+varnish_install 'main' do
+  package_name 'varnish'
+  vendor_repo true
+  vendor_version node['varnish']['version']
+end
+
+template "#{node['varnish']['dir']}/#{node['varnish']['vcl_conf']}" do
+  source node['varnish']['vcl_source']
+  cookbook node['varnish']['vcl_cookbook']
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :reload, 'service[varnish]', :delayed
+end
+
+execute 'varnish-systemd-reload' do
+  command 'systemctl daemon-reload'
+  action :nothing
+  subscribes :run, "file[#{node['varnish']['dir']}/default.vcl]", :immediately
 end

@@ -1,0 +1,39 @@
+# Configuration file for varnish
+#
+# /etc/init.d/varnish expects the variables $DAEMON_OPTS, $NFILES and $MEMLOCK
+# to be set from this shell script fragment.
+#
+
+# Should we start varnishd at boot?  Set to "no" to disable.
+START=<%= @varnish['start'] %>
+
+# Maximum number of open files (for ulimit -n)
+NFILES=<%= @varnish['nfiles'] %>
+
+# Maxiumum locked memory size for shared memory log
+MEMLOCK=<%= @varnish['memlock'] %>
+
+# Default varnish instance name is the local nodename.  Can be overridden with
+# the -n switch, to have more instances on a single server.
+INSTANCE=<%= @varnish['instance'] %>
+
+# Pass the Daemon options
+
+DAEMON_OPTS="-a <%= @varnish['listen_address'] %>:<%= @varnish['listen_port'] %> \
+              -f <%= @varnish['dir'] %>/<%= @varnish['vcl_conf'] %> \
+              -T <%= @varnish['admin_listen_address'] %>:<%= @varnish['admin_listen_port'] %> \
+              -t <%= @varnish['ttl'] %> \
+              <% if @varnish['version'] !~ /^4/ && @varnish['version'] !~ /^5/ %>
+              -w <%= @varnish['min_threads'] %>,<%= @varnish['max_threads'] %>,<%= @varnish['thread_timeout'] %> \
+              <% end %>
+              -s <%= @varnish['storage'] %>,<%= (@varnish['storage'] == 'file') ? "#{@varnish['storage_file']}," : '' %><%= @varnish['storage_size'] %> \
+              -S <%= @varnish['secret_file'] %> \
+              -p cli_buffer=<%= @varnish['parameters']['cli_buffer'] %> \
+              -p syslog_cli_traffic=<%= @varnish['parameters']['syslog_cli_traffic'] %> \
+              <% if @varnish['version'] =~ /^4/ || @varnish['version'] =~ /^5/ %>
+              -p feature=+esi_disable_xml_check,+esi_ignore_other_elements \
+              -p vcc_allow_inline_c=<%= @varnish['parameters']['vcc_allow_inline_c'] %> \
+              <% else %>
+              -p esi_syntax=<%= @varnish['parameters']['esi_syntax'] %> \
+              <% end %>
+              -n $INSTANCE"

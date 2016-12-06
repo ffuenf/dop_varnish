@@ -1,13 +1,11 @@
 ---
 driver:
-  name: vagrant
   driver_config:
     require_chef_omnibus: latest
 
 provisioner:
   name: chef_zero
-  solo_rb:
-    ssl_verify_mode: verify_peer
+  data_path: test/shared
 
 platforms:
 - name: debian-7.9.0-amd64
@@ -17,18 +15,18 @@ platforms:
     box_url: https://atlas.hashicorp.com/ffuenf/debian-7.9.0-amd64
     box_check_update: true
 
-- name: debian-8.3.0-amd64
+- name: debian-8.4.0-amd64
   driver_plugin: vagrant
   driver_config:
-    box: ffuenf/debian-8.3.0-amd64
-    box_url: https://atlas.hashicorp.com/ffuenf/debian-8.3.0-amd64
+    box: ffuenf/debian-8.4.0-amd64
+    box_url: https://atlas.hashicorp.com/ffuenf/debian-8.4.0-amd64
     box_check_update: true
 
-- name: ubuntu-14.04.3-server-amd64
+- name: ubuntu-14.04.4-server-amd64
   driver_plugin: vagrant
   driver_config:
-    box: ubuntu-14.04.3-server-amd64
-    box_url: https://atlas.hashicorp.com/ffuenf/ubuntu-14.04.3-server-amd64
+    box: ubuntu-14.04.4-server-amd64
+    box_url: https://atlas.hashicorp.com/ffuenf/ubuntu-14.04.4-server-amd64
     box_check_update: true
 
 suites:
