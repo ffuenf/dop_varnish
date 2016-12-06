@@ -83,6 +83,15 @@ varnish_install 'main' do
   vendor_version node['varnish']['version']
 end
 
+template "#{node['varnish']['dir']}/#{node['varnish']['vcl_conf']}" do
+  source node['varnish']['vcl_source']
+  cookbook node['varnish']['vcl_cookbook']
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :reload, 'service[varnish]', :delayed
+end
+
 execute 'varnish-systemd-reload' do
   command 'systemctl daemon-reload'
   action :nothing
